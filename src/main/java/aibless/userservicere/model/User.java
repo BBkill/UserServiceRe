@@ -16,14 +16,12 @@ public class User implements Serializable {
     private int id;
 
     //@NotNull(message = "name can not be null")
-    //@NotBlank(message = "name can not be null")
+    @NotBlank(message = "name can not be null")
     @Column(name = "name")
     private String name;
 
-
-    //@NotNull(message = "age can not be null")
-    //@NotBlank(message = "age can not be null")
-    //@Min(value = 17, message = "must be over 18")
+    @Min(value = 17, message = "must be over 18")
+    @Max(value = 100, message = "to damn old")
     @Column(name = "age")
     private Integer age;
 
