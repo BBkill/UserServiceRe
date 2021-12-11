@@ -30,7 +30,8 @@ public class UserServiceIml implements UserService {
         }
         else
         {
-            return userRepository.save(user);
+            userRepository.save(user);
+            return userRepository.findUserByEmail(user.getEmail()).orElse(null);
         }
     }
 
@@ -81,7 +82,7 @@ public class UserServiceIml implements UserService {
         {
             userRepository.delete(oldUser);
             userRepository.save(user);
-            return user;
+            return userRepository.findUserByEmail(user.getEmail()).orElse(null);
         }
         else
         {
