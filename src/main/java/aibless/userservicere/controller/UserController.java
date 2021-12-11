@@ -31,19 +31,21 @@ public class UserController {
 
 
     //get user by id
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable("id") int id) {
+    @GetMapping("/id/{id}")
+    public ResponseEntity<User> getUser(@PathVariable("id") int id)
+    {
         User user = userService.getUser(id);
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
 
-
-//    @GetMapping("/{email}")
-//    public ResponseEntity<User> getUser(@PathVariable("email") String email) {
-//        User user = userService.getUser(email);
-//        return ResponseEntity.ok(user);
-//    }
+    //get user by email
+    @GetMapping("/email/{email}")
+    public ResponseEntity<User> getUser(@PathVariable("email") String email)
+    {
+        User user = userService.getUser(email);
+        return ResponseEntity.ok(user);
+    }
 
     //get all user in db
     @GetMapping
