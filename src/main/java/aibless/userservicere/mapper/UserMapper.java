@@ -46,4 +46,16 @@ public class UserMapper {
     public List<UserResponseDto> findUsers() {
         return userService.getAllUser().stream().map(this::convertToUserResponseDto).collect(Collectors.toList());
     }
+
+    public UserResponseDto addUser(UserRequestDto user) {
+        return modelMapper.map( userService.createUser(convertToEntity(user)), UserResponseDto.class );
+    }
+
+    public UserResponseDto deleteUser(String email) {
+        return modelMapper.map(userService.deleteUser(userService.getUser(email)), UserResponseDto.class);
+    }
+
+    public UserResponseDto updateUser(UserRequestDto user) {
+        return modelMapper.map(userService.updateUser(convertToEntity(user)), UserResponseDto.class);
+    }
 }
