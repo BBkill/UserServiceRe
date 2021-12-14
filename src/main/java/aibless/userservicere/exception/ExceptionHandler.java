@@ -1,4 +1,4 @@
-package aibless.userservicere.service.exception;
+package aibless.userservicere.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
