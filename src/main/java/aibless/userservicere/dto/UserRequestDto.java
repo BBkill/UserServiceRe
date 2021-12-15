@@ -2,6 +2,8 @@ package aibless.userservicere.dto;
 
 import lombok.Data;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -9,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class UserRequestDto {
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)//AUTO_INCREMENT
     private Integer id;
 
     @NotBlank(message = "name can not be null")
@@ -21,4 +24,10 @@ public class UserRequestDto {
     @NotBlank(message = "email can not be null")
     private String email;
 
+    @NotBlank(message = "pass word must not be null")
+    private String phone_number;
+
+
+    @NotBlank(message = "pass word must not be null")
+    private String pass_word;
 }
