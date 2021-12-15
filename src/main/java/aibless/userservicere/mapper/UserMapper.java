@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 
@@ -57,5 +58,11 @@ public class UserMapper {
 
     public UserResponseDto updateUser(UserRequestDto user) {
         return modelMapper.map(userService.updateUser(convertToEntity(user)), UserResponseDto.class);
+    }
+
+    public List<UserResponseDto> findUserWithPagination(int pageNumber, int pageSize) {
+        Page<User> page = userService.findPaginated(pageNumber, pageSize);
+        return page.stream().map(this::convertToUserResponseDto).collect(Collectors.toList());
+
     }
 }

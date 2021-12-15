@@ -5,6 +5,7 @@ import aibless.userservicere.dto.UserRequestDto;
 import aibless.userservicere.dto.UserResponseDto;
 import aibless.userservicere.mapper.UserMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,6 +47,11 @@ public class UserController {
     @PutMapping
     public ResponseEntity<UserResponseDto> updateUser(@Valid @RequestBody UserRequestDto user) {
         return ResponseEntity.ok(userMapper.updateUser(user));
+    }
+
+    @GetMapping("/page/{pageNumber}/{pageSize}")
+    public ResponseEntity<List<UserResponseDto>> findPaginated(@PathVariable("pageNumber") Integer pageNumber, @PathVariable("pageSize") Integer pageSize ) {
+        return ResponseEntity.ok(userMapper.findUserWithPagination(pageNumber, pageSize));
     }
 }
 

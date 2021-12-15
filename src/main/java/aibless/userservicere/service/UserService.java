@@ -1,6 +1,7 @@
 package aibless.userservicere.service;
 
 import aibless.userservicere.model.User;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -17,5 +18,7 @@ public interface UserService {
     User deleteUser(User user);
 
     User updateUser(User user);
+
+    Page<User> findPaginated(int pageNumber, int pageSize);
 
 }

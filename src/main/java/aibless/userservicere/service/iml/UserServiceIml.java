@@ -6,12 +6,15 @@ import aibless.userservicere.service.UserService;
 import aibless.userservicere.exception.UserAlreadyExited;
 import aibless.userservicere.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserServiceIml implements UserService {
+public class UserServiceIml implements UserService{
 
     @Autowired
     private UserRepository userRepository;
@@ -73,6 +76,12 @@ public class UserServiceIml implements UserService {
         else {
             throw new UserNotFoundException();
         }
+    }
+
+    @Override
+    public Page<User> findPaginated(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber-1, pageSize);
+        return userRepository.findAll(pageable);
     }
 
     @Override
