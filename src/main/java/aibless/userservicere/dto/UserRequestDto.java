@@ -1,5 +1,6 @@
 package aibless.userservicere.dto;
 
+import aibless.userservicere.validator.constrain.ContactNumberConstraint;
 import lombok.Data;
 
 import javax.persistence.GeneratedValue;
@@ -24,9 +25,9 @@ public class UserRequestDto {
     @NotBlank(message = "email can not be null")
     private String email;
 
+    @ContactNumberConstraint
     @NotBlank(message = "pass word must not be null")
     private String phoneNumber;
-
 
     @NotBlank(message = "pass word must not be null")
     private String passWord;
