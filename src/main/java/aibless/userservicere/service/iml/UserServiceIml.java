@@ -1,5 +1,6 @@
 package aibless.userservicere.service.iml;
 
+import aibless.userservicere.exception.UserPhoneNumberAlreadyExited;
 import aibless.userservicere.model.User;
 import aibless.userservicere.repository.UserRepository;
 import aibless.userservicere.service.UserService;
@@ -21,9 +22,12 @@ public class UserServiceIml implements UserService{
 
     @Override
     public User createUser(User user) throws UserAlreadyExited {
-        User userByEmail = userRepository.findUserByEmail(user.getEmail()).orElse(null);
-        if(userByEmail != null) {
+        User user1 = userRepository.findUserByEmail(user.getEmail()).orElse(null);
+        if(user1 != null) {
             throw new UserAlreadyExited();
+        }
+        else if(userRepository.findUserByPhoneNumber(user.getPhoneNumber()).orElse(null) != null) {
+            throw new UserPhoneNumberAlreadyExited();
         }
         else {
             userRepository.save(user);

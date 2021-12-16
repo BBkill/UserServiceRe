@@ -28,10 +28,10 @@ public class User implements Serializable {
     private String email;
 
     @Column(name = "phone_number")
-    private String phone_number;
+    private String phoneNumber;
 
     @Column(name = "pass_word")
-    private String pass_word;
+    private String passWord;
 
 
 }

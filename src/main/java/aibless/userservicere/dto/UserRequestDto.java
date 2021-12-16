@@ -25,9 +25,9 @@ public class UserRequestDto {
     private String email;
 
     @NotBlank(message = "pass word must not be null")
-    private String phone_number;
+    private String phoneNumber;
 
 
     @NotBlank(message = "pass word must not be null")
-    private String pass_word;
+    private String passWord;
 }
