@@ -1,0 +1,22 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="ducdo" id="20211216-1420">
+        <createTable tableName="users">
+            <column name="id" type="integer not null auto_increment ">
+                <constraints primaryKey="true" primaryKeyName="user_id"/>
+            </column>
+            <column name = "name" type = "varchar(50)"/>
+            <column name = "age" type = "integer"/>
+            <column name = "email" type = "varchar(50) unique"/>
+            <column name = "phoneNumber" type = "varchar(15) unique"/>
+            <column name = "passWord" type = "varchar(50)"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
