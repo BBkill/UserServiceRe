@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UserMapper {
 
-
     private ModelMapper modelMapper = new ModelMapper();
 
     @Autowired
@@ -29,40 +28,40 @@ public class UserMapper {
 
 
     private User convertToEntity(UserRequestDto userRequestDto) {
-        return modelMapper.map(userRequestDto, User.class);
+        return null;
     }
 
     public UserResponseDto findUserById(int id) {
-        return convertToUserResponseDto(userService.getUser(id));
+        return null;
     }
 
-    public UserResponseDto findUserByEmail(String email) {
-        return convertToUserResponseDto(userService.getUser(email));
-    }
-
+//    public UserResponseDto findUserByEmail(String email) {
+//        return convertToUserResponseDto(userService.getUser(email));
+//    }
+//
     public UserResponseDto convertToUserResponseDto(User user) {
-        return modelMapper.map(user, UserResponseDto.class);
+        return null;
     }
-
-    public List<UserResponseDto> findUsers() {
-        return userService.getAllUser().stream().map(this::convertToUserResponseDto).collect(Collectors.toList());
-    }
-
-    public UserResponseDto addUser(UserRequestDto user) {
-        return modelMapper.map( userService.createUser(convertToEntity(user)), UserResponseDto.class );
-    }
-
-    public UserResponseDto deleteUser(String email) {
-        return modelMapper.map(userService.deleteUser(userService.getUser(email)), UserResponseDto.class);
-    }
-
-    public UserResponseDto updateUser(UserRequestDto user) {
-        return modelMapper.map(userService.updateUser(convertToEntity(user)), UserResponseDto.class);
-    }
-
-    public List<UserResponseDto> findUserWithPagination(int pageNumber, int pageSize) {
-        Page<User> page = userService.findPaginated(pageNumber, pageSize);
-        return page.stream().map(this::convertToUserResponseDto).collect(Collectors.toList());
-
-    }
+//
+//    public List<UserResponseDto> findUsers() {
+//        return userService.getAllUser().stream().map(this::convertToUserResponseDto).collect(Collectors.toList());
+//    }
+//
+//    public UserResponseDto addUser(UserRequestDto user) {
+//        return modelMapper.map( userService.createUser(convertToEntity(user)), UserResponseDto.class );
+//    }
+//
+//    public UserResponseDto deleteUser(String email) {
+//        return modelMapper.map(userService.deleteUser(userService.getUser(email)), UserResponseDto.class);
+//    }
+//
+//    public UserResponseDto updateUser(UserRequestDto user) {
+//        return modelMapper.map(userService.updateUser(convertToEntity(user)), UserResponseDto.class);
+//    }
+//
+//    public List<UserResponseDto> findUserWithPagination(int pageNumber, int pageSize) {
+//        Page<User> page = userService.findPaginated(pageNumber, pageSize);
+//        return page.stream().map(this::convertToUserResponseDto).collect(Collectors.toList());
+//
+//    }
 }
