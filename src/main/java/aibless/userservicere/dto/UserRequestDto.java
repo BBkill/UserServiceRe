@@ -31,4 +31,5 @@ public class UserRequestDto {
 
     @NotBlank(message = "pass word must not be null")
     private String passWord;
+
 }

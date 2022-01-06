@@ -8,17 +8,17 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users1")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements Serializable {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "user_id")
     private int id;
 
-    @Column(name = "name")
+    @Column(name = "user_name")
     private String name;
 
     @Column(name = "age")
@@ -32,6 +32,5 @@ public class User implements Serializable {
 
     @Column(name = "pass_word")
     private String passWord;
-
 
 }

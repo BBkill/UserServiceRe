@@ -7,4 +7,5 @@ public class UserPhoneNumberAlreadyExited extends AbstractException{
     public UserPhoneNumberAlreadyExited() {
         super("phone number exited", HttpStatus.BAD_REQUEST);
     }
+
 }

@@ -1,24 +1,28 @@
 package aibless.userservicere.service;
 
+import aibless.userservicere.dto.UserRequestDto;
+import aibless.userservicere.dto.UserResponseDto;
 import aibless.userservicere.model.User;
+import aibless.userservicere.model.paging.PagingResponse;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface UserService {
 
-    User createUser(User user);
+    UserResponseDto createUser(UserRequestDto user);
 
-    List<User> getAllUser();
+    List<UserResponseDto> getUsers();
 
-    User getUser(int id);
+    UserResponseDto getUser(int id);
 
-    User getUser(String email);
+    UserResponseDto getUser(String email);
 
-    User deleteUser(User user);
+    UserResponseDto deleteUser(String email );
 
-    User updateUser(User user);
+    UserResponseDto updateUser(UserRequestDto user);
 
-    Page<User> findPaginated(int pageNumber, int pageSize);
+    PagingResponse findPaginated(int pageNumber, int pageSize);
+
 
 }

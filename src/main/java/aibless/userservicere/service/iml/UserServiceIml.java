@@ -1,18 +1,23 @@
 package aibless.userservicere.service.iml;
 
+import aibless.userservicere.dto.UserRequestDto;
+import aibless.userservicere.dto.UserResponseDto;
 import aibless.userservicere.exception.UserPhoneNumberAlreadyExited;
+import aibless.userservicere.mapper.UserMapper;
 import aibless.userservicere.model.User;
+import aibless.userservicere.model.paging.PagingResponse;
 import aibless.userservicere.repository.UserRepository;
 import aibless.userservicere.service.UserService;
 import aibless.userservicere.exception.UserAlreadyExited;
 import aibless.userservicere.exception.UserNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceIml implements UserService{
@@ -20,8 +25,12 @@ public class UserServiceIml implements UserService{
     @Autowired
     private UserRepository userRepository;
 
+
+    private final ModelMapper modelMapper = new ModelMapper();
+
     @Override
-    public User createUser(User user) throws UserAlreadyExited {
+    public UserResponseDto createUser(UserRequestDto user) {
+
         User user1 = userRepository.findUserByEmail(user.getEmail()).orElse(null);
         if(user1 != null) {
             throw new UserAlreadyExited();
@@ -30,28 +39,21 @@ public class UserServiceIml implements UserService{
             throw new UserPhoneNumberAlreadyExited();
         }
         else {
-            userRepository.save(user);
-            return userRepository.findUserByEmail(user.getEmail()).orElse(null);
+            return modelMapper.map( userRepository.findUserByEmail(user.getEmail()),UserResponseDto.class);
         }
     }
 
     @Override
-    public List<User> getAllUser() {
-        List<User> list = userRepository.findAll();
-        if(list.size() != 0 ) {
-            return list;
-        }
-        else {
-            throw new UserNotFoundException();
-        }
-
+    public List<UserResponseDto> getUsers() {
+        List<UserResponseDto> list = userRepository.findAll().stream().map(user ->modelMapper.map(user, UserResponseDto.class)).collect(Collectors.toList());
+        return list;
     }
 
     @Override
-    public User getUser(int id) {
+    public UserResponseDto getUser(int id) {
         User user = userRepository.findById(id).orElse(null);
         if(user != null) {
-            return user;
+            return modelMapper.map( user, UserResponseDto.class);
         }
         else {
             throw new UserNotFoundException();
@@ -59,8 +61,8 @@ public class UserServiceIml implements UserService{
     }
 
     @Override
-    public User getUser(String email) {
-        User user = userRepository.findUserByEmail(email).orElse(null);
+    public UserResponseDto getUser(String email) {
+        UserResponseDto user = modelMapper.map(userRepository.findUserByEmail(email).orElse(null), UserResponseDto.class);
         if (user != null) {
             return user;
         }
@@ -70,12 +72,12 @@ public class UserServiceIml implements UserService{
     }
 
     @Override
-    public User updateUser(User user) {
+    public UserResponseDto updateUser(UserRequestDto user) {
         User oldUser = userRepository.findUserByEmail(user.getEmail()).orElse(null);
         if (oldUser != null) {
             userRepository.delete(oldUser);
-            userRepository.save(user);
-            return userRepository.findUserByEmail(user.getEmail()).orElse(null);
+            userRepository.save(modelMapper.map(user, User.class));
+            return modelMapper.map(userRepository.findUserByEmail(user.getEmail()), UserResponseDto.class);
         }
         else {
             throw new UserNotFoundException();
@@ -83,17 +85,23 @@ public class UserServiceIml implements UserService{
     }
 
     @Override
-    public Page<User> findPaginated(int pageNumber, int pageSize) {
+    public PagingResponse findPaginated(int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber-1, pageSize);
-        return userRepository.findAll(pageable);
+        Page<User> page = userRepository.findAll(pageable);
+        PagingResponse pagingResponse = new PagingResponse();
+        pagingResponse.setUsers(page.stream().map(user -> modelMapper.map(user, UserResponseDto.class)).collect(Collectors.toList()));
+        pagingResponse.setPageNo(pageNumber);
+        pagingResponse.setPageSize(pageSize);
+        pagingResponse.setTotal(pagingResponse.getUsers().size());
+        return pagingResponse;
     }
 
     @Override
-    public User deleteUser(User user) {
-        User oldUser = userRepository.findUserByEmail(user.getEmail()).orElse(null);
+    public UserResponseDto deleteUser(String email) {
+        User oldUser = userRepository.findUserByEmail(email).orElse(null);
         if (oldUser != null) {
-            userRepository.delete(user);
-            return user;
+            userRepository.delete(oldUser);
+            return modelMapper.map(oldUser, UserResponseDto.class);
         }
         else {
             throw new UserNotFoundException();
