@@ -24,5 +24,5 @@ public interface UserService {
 
     PagingResponse findPaginated(int pageNumber, int pageSize);
 
-
+    String doLogin(String email, String passWord);
 }

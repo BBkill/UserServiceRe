@@ -2,31 +2,48 @@ package aibless.userservicere.service.iml;
 
 import aibless.userservicere.dto.UserRequestDto;
 import aibless.userservicere.dto.UserResponseDto;
-import aibless.userservicere.exception.UserPhoneNumberAlreadyExited;
-import aibless.userservicere.mapper.UserMapper;
+import aibless.userservicere.exception.*;
+import aibless.userservicere.model.Role;
 import aibless.userservicere.model.User;
 import aibless.userservicere.model.paging.PagingResponse;
+import aibless.userservicere.repository.RoleRepository;
 import aibless.userservicere.repository.UserRepository;
+import aibless.userservicere.security.service.JwtProvider;
 import aibless.userservicere.service.UserService;
-import aibless.userservicere.exception.UserAlreadyExited;
-import aibless.userservicere.exception.UserNotFoundException;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.List;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
+@AllArgsConstructor
 public class UserServiceIml implements UserService{
 
-    @Autowired
-    private UserRepository userRepository;
 
+    private final UserRepository userRepository;
+
+    private final RoleRepository roleRepository;
 
     private final ModelMapper modelMapper = new ModelMapper();
+
+    private final JwtProvider jwtProvider;
+
+    @Override
+    public String doLogin(String email, String passWord) {
+        User user = userRepository.findUserByEmail(email).get();
+        if (passWord.equals(user.getPassWord())){
+            return jwtProvider.createToken(email, user.getRoles().iterator().next().getName());
+        } else {
+            throw new UserNamePassWordException();
+        }
+    }
 
     @Override
     public UserResponseDto createUser(UserRequestDto user) {
@@ -45,6 +62,8 @@ public class UserServiceIml implements UserService{
 
     @Override
     public List<UserResponseDto> getUsers() {
+//        log.info("running");
+//        log.error("get list users error");
         List<UserResponseDto> list = userRepository.findAll().stream().map(user ->modelMapper.map(user, UserResponseDto.class)).collect(Collectors.toList());
         return list;
     }
@@ -52,7 +71,12 @@ public class UserServiceIml implements UserService{
     @Override
     public UserResponseDto getUser(int id) {
         User user = userRepository.findById(id).orElse(null);
-        if(user != null) {
+        Role role = roleRepository.findById(user.getId()).orElse(null);
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        log.info(roles.toString());
+        user.setRoles(roles);
+        if (user != null) {
             return modelMapper.map( user, UserResponseDto.class);
         }
         else {

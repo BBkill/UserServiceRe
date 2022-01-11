@@ -1,32 +1,32 @@
-package aibless.userservicere.mapper;
-
-import aibless.userservicere.dto.UserRequestDto;
-import aibless.userservicere.dto.UserResponseDto;
-import aibless.userservicere.model.User;
-import aibless.userservicere.service.UserService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Component;
-
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-@Component
-@NoArgsConstructor
-@AllArgsConstructor
-public class UserMapper {
-
-
-    private ModelMapper modelMapper = new ModelMapper();
-
-    @Autowired
-    private  UserService userService;
-
+//package aibless.userservicere.mapper;
+//
+//import aibless.userservicere.dto.UserRequestDto;
+//import aibless.userservicere.dto.UserResponseDto;
+//import aibless.userservicere.model.User;
+//import aibless.userservicere.service.UserService;
+//import lombok.AllArgsConstructor;
+//import lombok.NoArgsConstructor;
+//
+//import org.modelmapper.ModelMapper;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.data.domain.Page;
+//import org.springframework.stereotype.Component;
+//
+//
+//import java.util.List;
+//import java.util.stream.Collectors;
+//
+//@Component
+//@NoArgsConstructor
+//@AllArgsConstructor
+//public class UserMapper {
+//
+//
+//    private ModelMapper modelMapper = new ModelMapper();
+//
+//    @Autowired
+//    private  UserService userService;
+//
 //
 //    private User convertToEntity(UserRequestDto userRequestDto) {
 //        return modelMapper.map(userRequestDto, User.class);
@@ -74,4 +74,4 @@ public class UserMapper {
 //        return page.stream().map(this::convertToUserResponseDto).collect(Collectors.toList());
 //
 //    }
-}
+//}

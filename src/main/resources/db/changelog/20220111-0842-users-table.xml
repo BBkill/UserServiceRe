@@ -1,0 +1,84 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="DucDo" id="20220106-1030">
+        <createTable tableName="users">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="dob" type="datetime">
+                <constraints nullable="false" />
+            </column>
+            <column name="email" type="varchar(50)">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="password" type="varchar(250)">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="username" type="varchar(50)">
+                <constraints  nullable="false" />
+            </column>
+            <column name="valid_email" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="roles">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="name" type="varchar(10)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <createTable tableName="cross_referent_user_role">
+            <column name="user_id" type="bigint" >
+                <constraints foreignKeyName="fk_user_id" references="users(id)" />
+            </column>
+            <column name="roles_id" type="bigint">
+                <constraints foreignKeyName="fk_roles_id" references="role(id)" />
+            </column>
+        </createTable>
+
+        <createTable tableName="group_chat">
+            <column name="ID" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <createTable tableName="chat_message">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="content" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="message_type" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sender" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="cross_referent_group_chat_users">
+            <column name="group_chat_id" type="bigint">
+                <constraints primaryKey="true" nullable="false" foreignKeyName="fk_group_chat_id" references="groupchat(id)" />
+            </column>
+            <column name="users_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_users_id" references="users(id)" />
+            </column>
+        </createTable>
+
+    </changeSet>
+</databaseChangeLog>

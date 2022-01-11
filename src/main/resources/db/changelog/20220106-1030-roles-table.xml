@@ -1,5 +1,3 @@
-
-
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
@@ -9,8 +7,15 @@
    http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <include file="changelog/20220106-1030-users-table.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/20220106-1030-roles-table.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/20220106-1030-combine-role-uer-table.xml" relativeToChangelogFile="true"/>
-<!--        <include file="changelog/20220111-0842-users-table.xml" relativeToChangelogFile="true"/>-->
+    <changeSet author="DucDo" id="20220106-1031">
+
+
+        <createTable tableName="roles">
+            <column name="role_id" type="integer" autoIncrement="true">
+                <constraints  primaryKey="true" primaryKeyName="pk_role_id"/>
+            </column>
+            <column name="name" type="varchar(50)"/>
+        </createTable>
+
+    </changeSet>
 </databaseChangeLog>
